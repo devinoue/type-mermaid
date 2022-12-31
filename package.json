@@ -1,0 +1,30 @@
+{
+  "name": "type-mermaid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [
+    "mermaid"
+  ],
+  "author": "Masaharu Inoue",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch src/SequenceDiagram/examples/test.ts",
+    "lint": "eslint --cache . --ext js,.ts,.tsx&&  prettier --cache --check --ignore-unknown --ignore-path .gitignore \"./**/*.{ts,tsx,css}\"",
+    "lint:fix": "eslint --cache . --ext js,.ts,.tsx --fix &&  prettier --cache --write --ignore-unknown --ignore-path .gitignore \"./**/*.{ts,tsx,css}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.2",
+    "eslint-plugin-autofix": "^1.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "^2.8.1",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.4"
+  }
+}
