@@ -1,4 +1,4 @@
-# type-mermaid
+# type-mermaid [![Build Test](https://github.com/devinoue/type-mermaid/actions/workflows/build.yml/badge.svg)](https://github.com/devinoue/type-mermaid/actions/workflows/build.yml)
 
 A library for writing Mermaid code in TypeScript.
 With this library, you can easily write Mermaid code using TypeScript and IDE IntelliSense.
