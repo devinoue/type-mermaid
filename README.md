@@ -48,7 +48,7 @@ d.Bob.response.Alice.msg('Morning, Alice')
 console.log(render.toString())
 ```
 
-The basic flow is to use a `d` instance (which stands for **diagram**) to create flow, and then use a `render` instance to output mermaid code or image.
+The basic flow is to use a `d` object (which stands for **diagram**) to create flow, and then use a `render` instance to output mermaid code or image.
 
 ### Output
 
