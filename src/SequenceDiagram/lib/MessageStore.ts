@@ -69,8 +69,10 @@ export class MessageStore {
   }
 
   async toSvg(pathString: string) {
+    // make temporary mmd file
     const tmpPath = path.join(__dirname, './_tmp.mmd')
     await fs.writeFile(tmpPath, this.toString())
     await run(tmpPath, pathString)
+    await fs.unlink(tmpPath)
   }
 }
