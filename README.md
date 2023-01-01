@@ -153,7 +153,7 @@ In this case, this code will automatically output without writing `deactivate`.
 
 ```typescript
 d.Alice.call.Bob.msg('Do you have the documents?')
-d.activate.Alice.then(() => {
+d.activate.Bob.then(() => {
   d.Bob.call.Bob.msg('Thinking...')
   d.Bob.response.Alice.msg('I have it!')
 })
@@ -166,10 +166,10 @@ sequenceDiagram
     participant Alice
     participant Bob
     Alice->>Bob: Do you have the documents?
-    activate Alice
+    activate Bob
     Bob->>Bob: Thinking...
     Bob-->>Alice: I have it!
-    deactivate Alice
+    deactivate Bob
 ```
 
 ```mermaid
@@ -177,10 +177,10 @@ sequenceDiagram
     participant Alice
     participant Bob
     Alice->>Bob: Do you have the documents?
-    activate Alice
+    activate Bob
     Bob->>Bob: Thniking...
     Bob-->>Alice: I have it!
-    deactivate Alice
+    deactivate Bob
 ```
 
 **2. Send a message and activate at the same time.**
