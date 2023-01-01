@@ -1,19 +1,33 @@
 {
   "name": "type-mermaid",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.es.js",
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
   "keywords": [
-    "mermaid"
+    "mermaid",
+    "typescript"
   ],
   "author": "Masaharu Inoue",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx watch src/SequenceDiagram/examples/test.ts",
+    "bundle": "rollup -c",
+    "clean": "rimraf dist",
+    "build": "run-s clean bundle",
+    "dev": "tsx watch src/examples/test.ts",
     "lint": "eslint --cache . --ext js,.ts,.tsx&&  prettier --cache --check --ignore-unknown --ignore-path .gitignore \"./**/*.{ts,tsx,css}\"",
     "lint:fix": "eslint --cache . --ext js,.ts,.tsx --fix &&  prettier --cache --write --ignore-unknown --ignore-path .gitignore \"./**/*.{ts,tsx,css}\""
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.31.0",
@@ -23,8 +37,16 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.34.1",
     "tsx": "^3.12.1",
     "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^9.2.2"
   }
 }
