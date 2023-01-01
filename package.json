@@ -48,5 +48,8 @@
   },
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^9.2.2"
+  },
+  "peerDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.2.2"
   }
 }
