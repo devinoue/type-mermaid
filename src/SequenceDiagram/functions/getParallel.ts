@@ -1,77 +1,37 @@
 import { MessageStore } from '../lib/MessageStore'
 
-export type Parallel<Member extends string> = {
-  and: {
-    [person in Member]: {
-      to: {
-        [person in Member]: {
-          then: (cb: () => void) => void
-        }
-      }
-    }
-  }
-  par: {
-    [person in Member]: {
-      to: {
-        [person in Member]: {
-          then: (cb: () => void) => void
-        }
-      }
-    }
-  }
+type Action = {
+  then: (msg: string, cb: () => void) => void
+}
+export type Parallel = {
+  and: Action
+  par: Action
 }
 
-export const getParallel = <Member extends string>(
-  persons: readonly Member[],
-  store: MessageStore,
-) => {
+export const getParallel = (store: MessageStore) => {
+  const par = {
+    then: (msg: string, cb: () => void) => {
+      store.add(`par ${msg}`)
+      store.setIndent()
+      cb()
+      store.unsetIndent()
+      return store.add(`end`)
+    },
+  }
+
+  const and = {
+    then: (msg: string, cb: () => void) => {
+      store.unsetIndent()
+      store.add(`and ${msg}`)
+      store.setIndent()
+      cb()
+    },
+  }
+
   const main = {
-    par: {},
-    and: {},
-  } as Parallel<Member>
+    par,
+    and,
+  } satisfies Parallel
 
-  const parThen = (fromPerson: Member) => {
-    const obj = {} as {
-      [person in Member]: { then: (cb: () => void) => void }
-    }
-    persons.forEach((toPerson) => {
-      obj[toPerson] = {
-        then: (cb: () => void) => {
-          store.add(`  par ${fromPerson} to ${toPerson}\n`)
-          store.setIndent()
-          cb()
-          store.unsetIndent()
-          return store.add(`  end\n`)
-        },
-      }
-    })
-    return obj
-  }
-
-  const andSet = (fromPerson: Member) => {
-    const obj = {} as {
-      [person in Member]: { then: (cb: () => void) => void }
-    }
-    persons.forEach((toPerson) => {
-      obj[toPerson] = {
-        then: (cb: () => void) => {
-          store.unsetIndent()
-          store.add(`  and ${fromPerson} to ${toPerson}\n`)
-          store.setIndent()
-          cb()
-        },
-      }
-    })
-    return obj
-  }
-
-  persons.forEach((person) => {
-    main.par[person] = {
-      to: parThen(person),
-    }
-    main.and[person] = {
-      to: andSet(person),
-    }
-  })
   return main
 }

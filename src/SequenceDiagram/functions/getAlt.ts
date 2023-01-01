@@ -1,33 +1,29 @@
 import { MessageStore } from '../lib/MessageStore'
 
+type Action = {
+  then: (msg: string, cb: () => void) => void
+}
 export type Alt = {
-  alt: {
-    then: (msg: string, cb: () => void) => void
-  }
-  else: {
-    then: (msg: string, cb: () => void) => void
-  }
-  opt: {
-    then: (msg: string, cb: () => void) => void
-  }
+  alt: Action
+  else: Action
+  opt: Action
 }
 
 export const getAlt = (store: MessageStore) => {
   const alt = {
     then: (msg: string, cb: () => void) => {
-      store.unsetIndent()
-      store.add(`  alt ${msg}\n`)
+      store.add(`alt ${msg}`)
       store.setIndent()
       cb()
       store.unsetIndent()
-      return store.add(`  end\n`)
+      return store.add(`end`)
     },
   }
 
   const _else = {
     then: (msg: string, cb: () => void) => {
       store.unsetIndent()
-      store.add(`  else ${msg}\n`)
+      store.add(`else ${msg}`)
       store.setIndent()
       cb()
     },
@@ -36,11 +32,11 @@ export const getAlt = (store: MessageStore) => {
   const opt = {
     then: (msg: string, cb: () => void) => {
       store.unsetIndent()
-      store.add(`  opt ${msg}\n`)
+      store.add(`opt ${msg}`)
       store.setIndent()
       cb()
       store.unsetIndent()
-      return store.add(`  end\n`)
+      return store.add(`end`)
     },
   }
 

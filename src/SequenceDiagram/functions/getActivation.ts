@@ -1,25 +1,25 @@
 import { MessageStore } from '../lib/MessageStore'
 
-export type Activation<Member extends string> = {
+export type Activation<Members extends string> = {
   activate: {
-    [person in Member]: { then: (cb: () => void) => void }
+    [member in Members]: { then: (cb: () => void) => void }
   }
 }
 
-export const getActivation = <Member extends string>(
-  persons: readonly Member[],
+export const getActivation = <Members extends string>(
+  members: readonly Members[],
   store: MessageStore,
 ) => {
   const main = {
     activate: {},
-  } as Activation<Member>
+  } as Activation<Members>
 
-  persons.forEach((person) => {
-    main.activate[person] = {
+  members.forEach((member) => {
+    main.activate[member] = {
       then: (cb: () => void) => {
-        store.add(`  activate ${person}\n`)
+        store.add(`activate ${member}`)
         cb()
-        store.add(`  deactivate ${person}\n`)
+        store.add(`deactivate ${member}`)
       },
     }
   })

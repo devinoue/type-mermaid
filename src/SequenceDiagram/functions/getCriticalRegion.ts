@@ -1,30 +1,35 @@
 import { MessageStore } from '../lib/MessageStore'
 
+type Action = {
+  then: (msg: string, cb: () => void) => void
+}
+
 export type CriticalRegion = {
-  critical: {
-    then: (msg: string, cb: () => void) => void
-  }
-  optionWhenCritical: {
-    then: (msg: string, cb: () => void) => void
-  }
+  critical: Action
+  optionWhenCritical: Action
 }
 
 export const getCriticalRegion = (store: MessageStore) => {
   const critical = {
+    /**
+     * Use call back function
+     * @param msg string
+     * @param cb
+     * @returns
+     */
     then: (msg: string, cb: () => void) => {
-      store.unsetIndent()
-      store.add(`  critical ${msg}\n`)
+      store.add(`critical ${msg}`)
       store.setIndent()
       cb()
       store.unsetIndent()
-      return store.add(`  end\n`)
+      return store.add(`end`)
     },
   }
 
   const optionWhenCritical = {
     then: (msg: string, cb: () => void) => {
       store.unsetIndent()
-      store.add(`  option ${msg}\n`)
+      store.add(`option ${msg}`)
       store.setIndent()
       cb()
     },

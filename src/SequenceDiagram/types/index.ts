@@ -1,5 +1,5 @@
-export type ActorSymbol = 'participant' | 'actor'
+export type MemberType = 'participant' | 'actor'
 
 export type MemberObject = {
-  readonly [name: string]: ActorSymbol
+  readonly [name: string]: MemberType
 }

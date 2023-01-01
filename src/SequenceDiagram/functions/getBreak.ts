@@ -14,12 +14,11 @@ export type Break = {
 export const getBreak = (store: MessageStore) => {
   const breakWhen = {
     then: (msg: string, cb: () => void) => {
-      store.unsetIndent()
-      store.add(`  break ${msg}\n`)
+      store.add(`break ${msg}`)
       store.setIndent()
       cb()
       store.unsetIndent()
-      return store.add(`  end\n`)
+      return store.add(`end`)
     },
   }
 

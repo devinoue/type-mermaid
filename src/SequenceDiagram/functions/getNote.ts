@@ -1,71 +1,73 @@
 import { MessageStore } from '../lib/MessageStore'
 
-type OverP2P<Member extends string> = {
-  [person in Member]: {
-    [person in Member]: {
-      msg: (msg: string) => void
-    }
-  }
+type Action = {
+  msg: (msg: string) => void
 }
-export type Note<Member extends string> = {
+type ParticipantAction<Members extends string> = {
+  [member in Members]: Action
+}
+
+type OverPtoP<Members extends string> = {
+  [member in Members]: ParticipantAction<Members>
+}
+export type Note<Members extends string> = {
   note: {
-    leftOf: {
-      [person in Member]: {
-        msg: (msg: string) => void
-      }
-    }
-    over: OverP2P<Member>
-    rightOf: {
-      [person in Member]: {
-        msg: (msg: string) => void
-      }
-    }
+    leftOf: ParticipantAction<Members>
+    over: OverPtoP<Members>
+    rightOf: ParticipantAction<Members>
   }
 }
 
-export const getNote = <Member extends string>(
-  persons: readonly Member[],
+type Direction = 'right' | 'left'
+
+export const getNote = <Members extends string>(
+  members: readonly Members[],
   store: MessageStore,
 ) => {
-  const note: any = {}
+  const main = { note: {} } as Note<Members>
 
-  const action = (direction: string) => {
-    const obj: any = {}
+  // Note right of A: msg
+  // Note left of A: msg
+  const action = (direction: Direction) => {
+    const obj = {} as ParticipantAction<Members>
 
-    persons.forEach((person) => {
-      obj[person] = {}
-      obj[person] = {
+    members.forEach((member) => {
+      obj[member] = {
         msg: (msg: string) => {
-          return store.add(`  Note ${direction} of ${person}: ${msg}\n`)
+          return store.add(`Note ${direction} of ${member}: ${msg}`)
         },
       }
     })
     return obj
   }
-  note.rightOf = action('right')
-  note.leftOf = action('left')
+  main.note.rightOf = action('right')
+  main.note.leftOf = action('left')
 
   // Note over A: msg
-  // Note over A,B: msg
-  const setNoteOver = (fromPerson: Member) => {
-    const obj: any = {}
-    persons.forEach((toPerson) => {
-      obj[toPerson] = {
+  // Or
+  // Note over A, B: msg
+  main.note.over = {} as OverPtoP<Members>
+
+  const setNoteOver = (fromMember: Members) => {
+    const obj = {} as ParticipantAction<Members>
+
+    members.forEach((toMember) => {
+      obj[toMember] = {
         msg: (msg: string) => {
-          return store.add(`  Note over ${fromPerson},${toPerson}: ${msg}\n`)
+          return store.add(`Note over ${fromMember},${toMember}: ${msg}`)
         },
       }
     })
     return obj
   }
-  note.over = {}
-  persons.forEach((person) => {
-    note.over[person] = {
-      ...setNoteOver(person),
+
+  members.forEach((member) => {
+    main.note.over[member] = {
+      ...setNoteOver(member),
       msg: (msg: string) => {
-        return store.add(`  Note over ${person}: ${msg}\n`)
+        return store.add(`Note over ${member}: ${msg}`)
       },
     }
   })
-  return { note } as Note<Member>
+  return main
 }

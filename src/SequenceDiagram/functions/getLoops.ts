@@ -9,11 +9,11 @@ export type Loops = {
 export const getLoops = (store: MessageStore) => {
   const loop = {
     then: (msg: string, cb: () => void) => {
-      store.add(`  loop ${msg}\n`)
+      store.add(`loop ${msg}`)
       store.setIndent()
       cb()
       store.unsetIndent()
-      return store.add(`  end\n`)
+      return store.add(`end`)
     },
   }
 
