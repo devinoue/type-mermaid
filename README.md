@@ -178,7 +178,7 @@ sequenceDiagram
     participant Bob
     Alice->>Bob: Do you have the documents?
     activate Bob
-    Bob->>Bob: Thniking...
+    Bob->>Bob: Thinking...
     Bob-->>Alice: I have it!
     deactivate Bob
 ```
