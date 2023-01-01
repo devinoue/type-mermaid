@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "declaration": true,
+    "declarationDir": "dist",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -15,6 +21,12 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.stories.tsx",
+    "src/**/*.test.tsx",
+    "src/examples"
+  ]
 }
