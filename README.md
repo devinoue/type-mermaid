@@ -5,6 +5,8 @@ With this library, you can easily write Mermaid code using TypeScript and IDE In
 
 **Currently, only sequence diagrams are supported.**
 
+[![NPM](https://nodei.co/npm/type-mermaid.png?compact=true)](https://nodei.co/npm/type-mermaid/)
+
 ## Installing
 
 For the latest stable version, run:
@@ -89,6 +91,8 @@ render.toMmd(mmdPath)
 Options for auto numbering(`autonumber`) and indentation can be specified as a string.
 By default, indentation is four spaces.
 
+**Example**
+
 ```Typescript
 import { SequenceDiagram } from '../SequenceDiagram'
 import { MemberObject } from '../SequenceDiagram/types'
@@ -115,7 +119,7 @@ console.log(render.toString())
 
 ```
 
-Output:
+**Output**
 
 ```
 sequenceDiagram
@@ -145,6 +149,8 @@ There are two ways to express Activation.
 
 In this case, this code will automatically output without writing `deactivate`.
 
+**Example**
+
 ```typescript
 d.Alice.call.Bob.msg('Do you have the documents?')
 d.activate.Alice.then(() => {
@@ -152,6 +158,8 @@ d.activate.Alice.then(() => {
   d.Bob.response.Alice.msg('I have it!')
 })
 ```
+
+**Output**
 
 ```
 sequenceDiagram
@@ -179,11 +187,15 @@ sequenceDiagram
 
 In this case, use the `activate()` to send a message. Then you must always use the `deactivate()` to terminate the activation.
 
+**Example**
+
 ```typescript
 d.Alice.call.Bob.activate('Do you have the documents?')
 d.Bob.call.Bob.msg('Thinking...')
 d.Bob.response.Alice.deactivate("I've got it!")
 ```
+
+**Output**
 
 ```
 sequenceDiagram
@@ -207,11 +219,13 @@ sequenceDiagram
 
 It is possible to add notes to a sequence diagram.
 
-See the example below:
+**Example**
 
 ```typescript
 d.note.rightOf.Alice.msg('Text in note')
 ```
+
+**Output**
 
 ```
 sequenceDiagram
@@ -231,6 +245,8 @@ To create notes spanning two participants.
 d.Alice.call.Bob.msg('Hello Bob, how are you?')
 d.note.over.Alice.Bob.msg('A typical interaction')
 ```
+
+**Output**
 
 ```
 sequenceDiagram
@@ -252,6 +268,8 @@ sequenceDiagram
 
 It is possible to express loops in a sequence diagram.
 
+**Example**
+
 ```typescript
 d.Alice.call.Bob.msg('Hello Bob, how are you?')
 d.loop.then('Every minute', () => {
@@ -261,6 +279,8 @@ d.loop.then('Every minute', () => {
 
 In `then()`, enter a label and a sequence to repeat.
 If no label is needed, the first argument will be an empty character ('').
+
+**Output**
 
 ```
 sequenceDiagram
@@ -286,6 +306,8 @@ sequenceDiagram
 
 It is possible to express alternative paths in a sequence diagram.
 
+**Example**
+
 ```typescript
 // Alt
 d.Alice.call.Bob.msg('Hello Bob, how are you?')
@@ -301,6 +323,8 @@ d.opt.then('Extra response', () => {
   d.Bob.response.Alice.msg('Thanks for asking')
 })
 ```
+
+**Output**
 
 ```
 sequenceDiagram
@@ -336,6 +360,8 @@ sequenceDiagram
 
 It is possible to show actions that are happening in parallel.
 
+**Example**
+
 ```typescript
 // add John
 const member = {
@@ -359,6 +385,8 @@ d.John.response.Alice.msg('Hi Alice!')
 `and.then()` should be used within a callback function for `then()`'s second argument.
 
 Multiple `and.then()` can be used.
+
+**Output**
 
 ```
 sequenceDiagram
@@ -390,6 +418,8 @@ sequenceDiagram
 
 It is also possible to nest parallel blocks.
 
+**Example**
+
 ```typescript
 const member = {
   Alice: 'participant',
@@ -418,6 +448,8 @@ d.par.then('Alice to Bob', () => {
 All participants must be defined by `member`. Otherwise, an error will occur.
 
 **(Because this is TypeScript!).**
+
+**Output**
 
 ```
 sequenceDiagram
