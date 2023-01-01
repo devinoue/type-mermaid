@@ -31,7 +31,6 @@ export const getAlt = (store: MessageStore) => {
 
   const opt = {
     then: (msg: string, cb: () => void) => {
-      store.unsetIndent()
       store.add(`opt ${msg}`)
       store.setIndent()
       cb()
