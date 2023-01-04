@@ -7,6 +7,10 @@ With this library, you can easily write Mermaid code using TypeScript and IDE In
 
 [![NPM](https://nodei.co/npm/type-mermaid.png?compact=true)](https://nodei.co/npm/type-mermaid/)
 
+## Try it out for yourself!
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/devinoue/type-mermaid?file=src/examples/test.ts)
+
 ## Installing
 
 For the latest stable version, run:
