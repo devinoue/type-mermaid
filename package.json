@@ -15,7 +15,7 @@
     "mermaid",
     "typescript"
   ],
-  "author": "Masaharu Inoue",
+  "author": "Dev Inoue",
   "license": "MIT",
   "scripts": {
     "bundle": "rollup -c",
