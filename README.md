@@ -7,7 +7,7 @@ With this library, you can easily write Mermaid code using TypeScript and IDE In
 
 [![NPM](https://nodei.co/npm/type-mermaid.png?compact=true)](https://nodei.co/npm/type-mermaid/)
 
-## Try it out for yourself!
+## Try it out for yourself
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/devinoue/type-mermaid?file=src/examples/test.ts)
 
@@ -95,7 +95,7 @@ render.toMmd(mmdPath)
 Options for auto numbering(`autonumber`) and indentation can be specified as a string.
 By default, indentation is four spaces.
 
-**Example**
+### Example
 
 ```Typescript
 import { SequenceDiagram } from '../SequenceDiagram'
@@ -123,7 +123,7 @@ console.log(render.toString())
 
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -153,7 +153,7 @@ There are two ways to express Activation.
 
 In this case, this code will automatically output without writing `deactivate`.
 
-**Example**
+### Example
 
 ```typescript
 d.Alice.call.Bob.msg('Do you have the documents?')
@@ -163,7 +163,7 @@ d.activate.Bob.then(() => {
 })
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -191,7 +191,7 @@ sequenceDiagram
 
 In this case, use the `activate()` to send a message. Then you must always use the `deactivate()` to terminate the activation.
 
-**Example**
+### Example
 
 ```typescript
 d.Alice.call.Bob.activate('Do you have the documents?')
@@ -199,7 +199,7 @@ d.Bob.call.Bob.msg('Thinking...')
 d.Bob.response.Alice.deactivate("I've got it!")
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -223,13 +223,13 @@ sequenceDiagram
 
 It is possible to add notes to a sequence diagram.
 
-**Example**
+### Example
 
 ```typescript
 d.note.rightOf.Alice.msg('Text in note')
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -250,7 +250,7 @@ d.Alice.call.Bob.msg('Hello Bob, how are you?')
 d.note.over.Alice.Bob.msg('A typical interaction')
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -272,7 +272,7 @@ sequenceDiagram
 
 It is possible to express loops in a sequence diagram.
 
-**Example**
+### Example
 
 ```typescript
 d.Alice.call.Bob.msg('Hello Bob, how are you?')
@@ -284,7 +284,7 @@ d.loop.then('Every minute', () => {
 In `then()`, enter a label and a sequence to repeat.
 If no label is needed, the first argument will be an empty character ('').
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -310,7 +310,7 @@ sequenceDiagram
 
 It is possible to express alternative paths in a sequence diagram.
 
-**Example**
+### Example
 
 ```typescript
 // Alt
@@ -328,7 +328,7 @@ d.opt.then('Extra response', () => {
 })
 ```
 
-**Output**
+### Output
 
 ```
 sequenceDiagram
@@ -364,7 +364,7 @@ sequenceDiagram
 
 It is possible to show actions that are happening in parallel.
 
-**Example**
+### Example
 
 ```typescript
 // add John
@@ -390,9 +390,9 @@ d.John.response.Alice.msg('Hi Alice!')
 
 Multiple `and.then()` can be used.
 
-**Output**
+### Output
 
-```
+```mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -422,7 +422,7 @@ sequenceDiagram
 
 It is also possible to nest parallel blocks.
 
-**Example**
+### Example
 
 ```typescript
 const member = {
@@ -453,9 +453,9 @@ All participants must be defined by `member`. Otherwise, an error will occur.
 
 **(Because this is TypeScript!).**
 
-**Output**
+### Output
 
-```
+```mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -492,3 +492,126 @@ sequenceDiagram
         end
     end
 ```
+
+## Critical Region
+
+It is possible to show actions that must happen automatically with conditional handling of circumstances.
+
+### Example
+
+```typescript
+const member = {
+  Service: 'participant',
+  DB: 'participant',
+} satisfies MemberObject
+
+d.critical.then('critical Establish a connection to the DB', () => {
+  d.Service.call.DB.msg('connect')
+  d.optionWhenCritical.then('Network timeout', () => {
+    d.Service.response.Service.msg('Log error')
+  })
+  d.optionWhenCritical.then('Credentials rejected', () => {
+    d.Service.response.Service.msg('Log different error')
+  })
+})
+```
+
+### Output
+
+```mermaid
+sequenceDiagram
+    participant Service
+    participant DB
+    critical critical Establish a connection to the DB
+        Service->>DB: connect
+    option Network timeout
+        Service-->>Service: Log error
+    option Credentials rejected
+        Service-->>Service: Log different error
+    end
+```
+
+## Break
+
+It is possible to indicate a stop of the sequence within the flow (usually used to model exceptions).
+
+### Example
+
+```typescript
+const member = {
+  Consumer: 'participant',
+  API: 'participant',
+  BookingService: 'participant',
+  BillingService: 'participant',
+} satisfies MemberObject
+
+const { d, render } = SequenceDiagram<keyof typeof member>(member)
+
+d.Consumer.dotted.API.msg('Book something')
+d.API.dotted.BookingService.msg('Start booking process')
+d.breakWhen.then('when the booking process fails', () => {
+  d.API.dotted.Consumer.msg('show failure')
+})
+d.API.dotted.BillingService.msg('Start billing process')
+```
+
+### Output
+
+```mermaid
+sequenceDiagram
+    Consumer-->API: Book something
+    API-->BookingService: Start booking process
+    break when the booking process fails
+        API-->Consumer: show failure
+    end
+    API-->BillingService: Start billing process
+```
+
+## Background Highlighting
+
+It is possible to highlight flows by providing colored background rects. This is done by the notation
+
+The colors are defined using rgb and rgba syntax.
+
+### Example
+
+```typescript
+const member = {
+  Alice: 'participant',
+  John: 'participant',
+} satisfies MemberObject
+
+const { d, render } = SequenceDiagram<keyof typeof member>(member)
+d.rect.then('rgb(191, 223, 255)', () => {
+  d.note.rightOf.Alice.msg('Alice calls John.')
+  d.Alice.call.John.activate('Hello John, how are you?')
+  d.rect.then('rgb(200, 150, 255)', () => {
+    d.Alice.call.John.activate('John, can you hear me?')
+    d.John.response.Alice.deactivate('Hi Alice, I can hear you!')
+  })
+  d.John.response.Alice.deactivate('I feel great!')
+})
+d.Alice.call.John.activate('Did you want to go to the game tonight?')
+d.John.response.Alice.deactivate('Yeah! See you there.')
+```
+
+### Output
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant John
+    rect rgb(191, 223, 255)
+        Note right of Alice: Alice calls John.
+        Alice->>+John: Hello John, how are you?
+        rect rgb(200, 150, 255)
+            Alice->>+John: John, can you hear me?
+            John-->>-Alice: Hi Alice, I can hear you!
+        end
+        John-->>-Alice: I feel great!
+    end
+    Alice->>+John: Did you want to go to the game tonight?
+    John-->>-Alice: Yeah! See you there.
+```
+
+That's it!
