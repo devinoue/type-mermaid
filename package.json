@@ -26,28 +26,28 @@
     "lint:fix": "eslint --cache . --ext js,.ts,.tsx --fix &&  prettier --cache --write --ignore-unknown --ignore-path .gitignore \"./**/*.{ts,tsx,css}\""
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.47.1",
-    "@typescript-eslint/parser": "^5.47.1",
-    "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.5.2",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-autofix": "^1.1.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-typescript-sort-keys": "^2.3.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
-    "rollup": "^2.56.3",
+    "rollup": "^2.79.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.34.1",
-    "tsx": "^3.12.1",
-    "typescript": "^4.9.4"
+    "tsx": "^3.14.0",
+    "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^9.2.2"
+    "@mermaid-js/mermaid-cli": "^9.4.0"
   },
   "peerDependencies": {
     "@mermaid-js/mermaid-cli": "^9.2.2"
